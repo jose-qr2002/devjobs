@@ -9,21 +9,22 @@
                     <p class="text-sm text-gray-600 font-bold">{{ $vacante->empresa }}</p>
                     <p class="text-sm text-gray-500">Ultimo día: {{ $vacante->ultimo_dia->format('d/m/Y') }}</p>
                 </div>
-                
+
                 <div class="flex flex-col md:flex-row items-stretch gap-3 mt-5 md:mt-0">
-                    <a 
+                    <a
                         href="{{ route('candidatos.index', $vacante) }}"
                         class="bg-slate-800 py-2 px-4 rounded-lg text-white text-xs font-bold uppercase"
                     >
+                        {{ count($vacante->candidatos) }}
                         Candidatos
                     </a>
-                    <a 
+                    <a
                         href="{{ route('vacantes.edit', $vacante->id) }}"
                         class="bg-blue-800 py-2 px-4 rounded-lg text-white text-xs font-bold uppercase"
                     >
                         Editar
                     </a>
-                    <button 
+                    <button
                         wire:click="$dispatch('mostrarAlerta', {{ $vacante->id }})"
                         class="bg-red-600 py-2 px-4 rounded-lg text-white text-xs font-bold uppercase"
                     >
@@ -45,7 +46,7 @@
     <script>
         Livewire.on('mostrarAlerta', vacanteId => {
             console.log(vacanteId);
-            
+
             Swal.fire({
                 title: 'Eliminar una vacante?',
                 text: "Una vacante eliminada no se puede recuperar!",
@@ -57,7 +58,7 @@
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Eliminar la vacante 
+                    // Eliminar la vacante
                     @this.call('eliminarVacante',vacanteId);
 
                     Swal.fire(
